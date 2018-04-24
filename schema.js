@@ -56,6 +56,13 @@ const resolvers = {
           description: 'Learning Node!'
         }
       ]
+    },
+    teachers: () => {
+      return [{
+        id: 1,
+        name: 'John',
+        country: 'Spain'
+      }]
     }
   },
   Course: {
@@ -65,6 +72,20 @@ const resolvers = {
         name: 'John',
         country: 'Spain'
       }
+    },
+    comments: () => {
+      return [
+        {
+          id: 1,
+          name: 'Michael',
+          body: 'Great course.'
+        },
+        {
+          id: 2,
+          name: 'Joel',
+          body: 'Excellent'
+        }
+      ]
     }
   }
 }
