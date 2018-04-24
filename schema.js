@@ -34,15 +34,44 @@ const typeDefs = `
   }
 
   type Query {
-    Courses: [Course]
-    Teachers: [Teacher]
+    courses: [Course]
+    teachers: [Teacher]
     course(id: Int): Course
     teacher(id: Int): Teacher
   }
 `
 
+const resolvers = {
+  Query: {
+    courses: () => {
+      return [
+        {
+          id: 1,
+          title: 'Grahpql course',
+          description: 'Learning graphql'
+        },
+        {
+          id: 2,
+          title: 'Node.js course',
+          description: 'Learning Node!'
+        }
+      ]
+    }
+  },
+  Course: {
+    teacher: () => {
+      return {
+        id: 1,
+        name: 'John',
+        country: 'Spain'
+      }
+    }
+  }
+}
+
 const schema = makeExecutableSchema({
-  typeDefs
+  typeDefs,
+  resolvers
 })
 
 module.exports = schema
