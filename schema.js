@@ -1,8 +1,5 @@
 const casual = require('casual');
-const {
-  makeExecutableSchema,
-  addMockFunctionsToSchema
-} = require('graphql-tools')
+const { makeExecutableSchema } = require('graphql-tools')
 
 const { Course, Teacher } = require('./models')
 
@@ -59,34 +56,6 @@ const resolvers = {
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers
-})
-
-addMockFunctionsToSchema({
-  schema,
-  mocks: {
-    Course: () => {
-      return {
-        id: casual.integer(from = 1, to = 100),
-        title: casual.title,
-        description: casual.short_description
-      }
-    },
-    Teacher: () => {
-      return {
-        id: casual.integer(from = 1, to = 100),
-        name: casual.full_name,
-        country: casual.country
-      }
-    },
-    Comment: () => {
-      return {
-        id: casual.integer(from = 1, to = 100),
-        name: casual.full_name,
-        description: casual.description
-      }
-    }
-  },
-  preserveResolvers: true // If it's true, it uses resolvers instead of mocks
 })
 
 module.exports = schema
