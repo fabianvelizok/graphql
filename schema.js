@@ -4,6 +4,7 @@ const {
   addMockFunctionsToSchema
 } = require('graphql-tools')
 
+const { Course, Teacher } = require('./models')
 
 const typeDefs = `
   # This is a course. It belongs to a teacher
@@ -48,50 +49,10 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    courses: () => {
-      return [
-        {
-          id: 1,
-          title: 'Grahpql course',
-          description: 'Learning graphql'
-        },
-        {
-          id: 2,
-          title: 'Node.js course',
-          description: 'Learning Node!'
-        }
-      ]
-    },
-    teachers: () => {
-      return [{
-        id: 1,
-        name: 'John',
-        country: 'Spain'
-      }]
-    }
-  },
-  Course: {
-    teacher: () => {
-      return {
-        id: 1,
-        name: 'John',
-        country: 'Spain'
-      }
-    },
-    comments: () => {
-      return [
-        {
-          id: 1,
-          name: 'Michael',
-          body: 'Great course.'
-        },
-        {
-          id: 2,
-          name: 'Joel',
-          body: 'Excellent'
-        }
-      ]
-    }
+    courses: () => Course.query().eager('[teacher]'), // @FIXME: Comment relationship
+    teachers: () => Teacher.query().eager('[courses]'),
+    course: (rootValue, args) => Course.query().eager('[teacher]').findById(args.id), // @FIXME: Comment relationship
+    teacher: (rootValue, args) => Teacher.query().eager('[courses]').findById(args.id)
   }
 }
 
@@ -125,7 +86,7 @@ addMockFunctionsToSchema({
       }
     }
   },
-  preserveResolvers: false // If it's true, it uses resolvers instead of mocks
+  preserveResolvers: true // If it's true, it uses resolvers instead of mocks
 })
 
 module.exports = schema
