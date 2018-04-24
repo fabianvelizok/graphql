@@ -7,7 +7,7 @@ const typeDefs = `
     title: String!
     description: String!
     teacher: Teacher
-    rating: Float
+    rating: Float @deprecated(reason: "No longer used")
     # Course comments
     comments: [Comment]
   }
