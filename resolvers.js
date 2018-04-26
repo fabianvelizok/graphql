@@ -32,10 +32,12 @@ const resolvers = {
       return Teacher.query().patchAndFetchById(args.teacherId, args.teacherParams);
     },
     teacherDelete: async (_, args) => {
+      const id = args.teacherId;
       // Just to return the teacher that we are going to delete.
-      const teacherToDelete = await Teacher.query().findById(args.teacherId);
-      await Teacher.query().deleteById(args.teacherId);
-      return teacherToDelete;
+      const teacher = await Teacher.query().findById(id);
+      const deletedRows = await Teacher.query().deleteById(id);
+      if (deletedRows > 0) return teacher;
+      throw new Error(`The teacher width id '${id}' was not deleted successfully.`)
     },
     courseAdd: (_, args) => {
       return Course.query().insert(args.newCourse)
@@ -44,9 +46,11 @@ const resolvers = {
       return Course.query().patchAndFetchById(args.courseId, args.courseParams);
     },
     courseDelete: async (_, args) => {
-      const courseToDelete = await Course.query().findById(args.courseId);
-      await Course.query().deleteById(args.courseId);
-      return courseToDelete;
+      const id = args.courseId;
+      const course = await Course.query().findById(id);
+      const deletedRows = await Course.query().deleteById(id);
+      if (deletedRows > 0) return course;
+      throw new Error(`The course width id '${id}' was not deleted successfully.`)
     }
   }
 }
