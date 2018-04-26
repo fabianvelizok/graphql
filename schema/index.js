@@ -13,6 +13,7 @@ const rootQuery = `
 
   type Mutation {
     teacherAdd(newTeacher: NewTeacher): Teacher
+    teacherUpdate(teacherId: Int!, teacherParams: TeacherParams): Teacher
   }
 `
 

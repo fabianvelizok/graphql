@@ -18,4 +18,10 @@ module.exports = `
     country: String!,
     gender: Gender
   }
+
+  input TeacherParams {
+    name: String,
+    country: String,
+    gender: Gender
+  }
 `

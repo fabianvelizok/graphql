@@ -11,6 +11,9 @@ const resolvers = {
   Mutation: {
     teacherAdd: (_, args) => {
       return Teacher.query().insert(args.newTeacher)
+    },
+    teacherUpdate: (_, args) => {
+      return Teacher.query().patchAndFetchById(args.teacherId, args.teacherParams);
     }
   }
 }
