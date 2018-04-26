@@ -1,12 +1,28 @@
 const casual = require('casual');
 const { Course, Teacher } = require('./models')
+const { raw } = require('objection')
 
 const resolvers = {
   Query: {
     courses: () => Course.query().eager('[teacher]'), // @FIXME: Comment relationship
     teachers: () => Teacher.query().eager('[courses]'),
     course: (rootValue, args) => Course.query().eager('[teacher]').findById(args.id), // @FIXME: Comment relationship
-    teacher: (rootValue, args) => Teacher.query().eager('[courses]').findById(args.id)
+    teacher: (_, args) => Teacher.query().eager('[courses]').findById(args.id),
+    search: async (_, args) => {
+      const query = args.query.toLowerCase();
+      const teachers = await Teacher.query()
+                                    .where(raw('lower("name")'), 'like', `%${query}%`);
+      const courses = await Course.query()
+                                  .where(raw('lower("title")'), 'like', `%${query}%`);
+      return [
+        ...teachers, ...courses
+      ]
+    }
+  },
+  searchResult: {
+    __resolveType: (result, context, info) => {
+      return result.name ? 'Teacher' : 'Course';
+    }
   },
   Mutation: {
     teacherAdd: (_, args) => {
