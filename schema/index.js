@@ -15,6 +15,9 @@ const rootQuery = `
     teacherAdd(newTeacher: NewTeacher): Teacher
     teacherUpdate(teacherId: Int!, teacherParams: TeacherParams): Teacher
     teacherDelete(teacherId: Int!): Teacher
+    courseAdd(newCourse: NewCourse): Course
+    courseUpdate(courseId: Int!, courseParams: CourseParams): Course
+    courseDelete(courseId: Int!): Course
   }
 `
 

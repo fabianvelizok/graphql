@@ -16,4 +16,14 @@ module.exports = `
     name: String!
     body: String!
   }
+
+  input NewCourse {
+    title: String!
+    description: String!
+  }
+
+  input CourseParams {
+    title: String
+    description: String
+  }
 `

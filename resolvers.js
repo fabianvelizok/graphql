@@ -15,8 +15,22 @@ const resolvers = {
     teacherUpdate: (_, args) => {
       return Teacher.query().patchAndFetchById(args.teacherId, args.teacherParams);
     },
-    teacherDelete: (_, args) => {
-      return Teacher.query().delete().where('id', '=' , args.teacherId);
+    teacherDelete: async (_, args) => {
+      // Just to return the teacher that we are going to delete.
+      const teacherToDelete = await Teacher.query().findById(args.teacherId);
+      await Teacher.query().deleteById(args.teacherId);
+      return teacherToDelete;
+    },
+    courseAdd: (_, args) => {
+      return Course.query().insert(args.newCourse)
+    },
+    courseUpdate: (_, args) => {
+      return Course.query().patchAndFetchById(args.courseId, args.courseParams);
+    },
+    courseDelete: async (_, args) => {
+      const courseToDelete = await Course.query().findById(args.courseId);
+      await Course.query().deleteById(args.courseId);
+      return courseToDelete;
     }
   }
 }
