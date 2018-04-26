@@ -14,6 +14,9 @@ const resolvers = {
     },
     teacherUpdate: (_, args) => {
       return Teacher.query().patchAndFetchById(args.teacherId, args.teacherParams);
+    },
+    teacherDelete: (_, args) => {
+      return Teacher.query().delete().where('id', '=' , args.teacherId);
     }
   }
 }
