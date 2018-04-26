@@ -7,6 +7,11 @@ const resolvers = {
     teachers: () => Teacher.query().eager('[courses]'),
     course: (rootValue, args) => Course.query().eager('[teacher]').findById(args.id), // @FIXME: Comment relationship
     teacher: (rootValue, args) => Teacher.query().eager('[courses]').findById(args.id)
+  },
+  Mutation: {
+    teacherAdd: (_, args) => {
+      return Teacher.query().insert(args.newTeacher)
+    }
   }
 }
 
